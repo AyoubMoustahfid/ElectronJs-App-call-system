@@ -26,14 +26,14 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 function save(){
   let name = document.getElementById("name").value;
   // let number = document.getElementById("number").value;
     let path = __dirname + "number.txt"
-
+  
     if(fs.existsSync(path)){
       fs.appendFile(path, name + ";", (err) => {
         const result = err ? err : "new number saved !!";
@@ -72,11 +72,11 @@ const listContacts = () => {
 
 
     let ul = document.querySelector(".list-group")
-
+     ul.innerHTML = "";
       var html = ``;
     for(var i = 0; i < contacts.toString().split(";").length -1 ; i++){
     html = `
-    <li class="list-group-item my-2">
+    <li class="list-group-item my-2" style="border-top: 1px solid rgba(0,0,0,.125);">
         <img src="man.png" alt="" width="40px" height="40px">
         ${
         contacts.toString().split(";")[i] 
@@ -92,12 +92,14 @@ const listContacts = () => {
 }
 
 
+
 const call = () => {
-  let name = document.getElementById("name").value;
-  let number = document.getElementById("number").value;
+  let name = document.getElementById("nameCall").value;
+  let numbers = document.getElementById("phone").innerText;
   let path = __dirname + "listCall.txt";
 
   var date = new Date();
+
 
   var dateAppel = ("00" + date.getDate()).slice(-2) +
   "/" +
@@ -112,17 +114,26 @@ const call = () => {
   ("00" + date.getSeconds()).slice(-2);
 
   if(fs.existsSync(path)){
-    fs.appendFile(path, name + " " + number + " " + dateAppel + ";", (err) => {
+   if(name == "" && numbers == ""){
+     alert('input is required')
+     return;
+   }else{
+    fs.appendFile(path, name + " " + numbers + " " + dateAppel + ";", (err) => {
+     
       const result = err ? err : "is Calling"
       console.log(result)
+      console.log(name + " " + numbers + " " + dateAppel + ";")
     })
+   }
   }else{
-    fs.writeFile(path, name + " " + number + " " + dateAppel + ";", err => {
+    fs.writeFile(path, name + " " + numbers + " " + dateAppel + ";", err => {
       if(err) throw err;
       console.log("Call is Created");
       console.log("is Calling")
     })
   }
+
+  document.querySelector("form").reset();
 }
 
 const listAppels = () => {
@@ -148,16 +159,18 @@ const listAppels = () => {
 
 
     let ul = document.querySelector("#list-group")
+    ul.innerHTML = "";
     var html = ``;
     
     for(var i = 0; i < listCalls.toString().split(";").length -1 ; i++){
     html = `
-    <li class="list-group-item my-2">
-        <img src="man.png" alt="" width="40px" height="40px">
+    <li class="list-group-item my-2" style="border-top: 1px solid rgba(0,0,0,.125);">
+        <img src="telephone.png" alt="" width="40px" height="40px" é>
         ${
         listCalls.toString().split(";")[i] 
         }
     </li>
+    
     `
     ul.innerHTML  =  ul.innerHTML + html;
     }

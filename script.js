@@ -1,8 +1,8 @@
 "use strict";
 
-var input = document.getElementById('input'), // input/output button
-  number = document.querySelectorAll('.numbers div'), // number buttons
-  operator = document.querySelectorAll('.operators div'), // operator buttons
+var input = document.getElementById('number'), // input/output button
+  number = document.querySelectorAll('.row div'), // number buttons
+
   result = document.getElementById('result'), // equal button
   clear = document.getElementById('clear'), // clear button
   resultDisplayed = false; // flag to keep an eye on what output is displayed
@@ -13,6 +13,13 @@ for (var i = 0; i < number.length; i++) {
 
     // storing current input string and its last character in variables - used later
     var currentString = input.innerHTML;
+    if(currentString.length > 10){
+      currentString.disabled = true;
+      console.log('phone size is true')
+    }else{
+      currentString.disabled = false;
+      console.log("phone size is false")
+    }
     var lastChar = currentString[currentString.length - 1];
 
     // if result is not diplayed, just keep adding
@@ -60,5 +67,5 @@ for (var i = 0; i < operator.length; i++) {
 
 // clearing the input on press of clear
 clear.addEventListener("click", function() {
-  input.innerHTML = "";
-})
+    input.innerHTML = "";
+  })
